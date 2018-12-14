@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentsApp", "ExperimentsApp\ExperimentsApp.csproj", "{8D5D1B07-8853-4FFC-A391-775125BB749D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExperimentsApp.API", "ExperimentsApp\ExperimentsApp.API.csproj", "{8D5D1B07-8853-4FFC-A391-775125BB749D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentsApp.Data", "ExperimentsApp.Data\ExperimentsApp.Data.csproj", "{025F0053-8CBF-4451-BD9B-A15357E7EF8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentsApp.Service", "ExperimentsApp.Service\ExperimentsApp.Service.csproj", "{01D14E73-CC30-40EF-A788-74C1CCB57621}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{8D5D1B07-8853-4FFC-A391-775125BB749D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D5D1B07-8853-4FFC-A391-775125BB749D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D5D1B07-8853-4FFC-A391-775125BB749D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{025F0053-8CBF-4451-BD9B-A15357E7EF8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{025F0053-8CBF-4451-BD9B-A15357E7EF8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{025F0053-8CBF-4451-BD9B-A15357E7EF8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{025F0053-8CBF-4451-BD9B-A15357E7EF8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01D14E73-CC30-40EF-A788-74C1CCB57621}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01D14E73-CC30-40EF-A788-74C1CCB57621}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01D14E73-CC30-40EF-A788-74C1CCB57621}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01D14E73-CC30-40EF-A788-74C1CCB57621}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
