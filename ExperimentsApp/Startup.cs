@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ExperimentsApp.Data.DAL;
+using ExperimentsApp.Service.Interfaces;
+using ExperimentsApp.Service.Services;
 
 namespace ExperimentsApp
 {
@@ -21,6 +23,11 @@ namespace ExperimentsApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddScoped<IExperimentTypeService, ExperimentTypeService>();
+            services.AddScoped<IExperimentService, ExperimentService>();
+            services.AddScoped<IMachineService, MachineService>();
+            services.AddScoped<ISensorService, SensorService>();
 
             var connection = @"Server=.\SQLEXPRESS;Database=ExperimentsDB;Trusted_Connection=True";
             services.AddDbContext<ExperimentsDbContext>
