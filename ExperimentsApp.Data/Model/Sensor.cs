@@ -6,7 +6,7 @@ namespace ExperimentsApp.Data.Model
 {
     public class Sensor
     {
-        public Guid SensorId { get; set; }
+        public int SensorId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public string Position { get; set; }

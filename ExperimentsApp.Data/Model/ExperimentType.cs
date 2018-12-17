@@ -6,7 +6,7 @@ namespace ExperimentsApp.Data.Model
 {
     public class ExperimentType
     {
-        public Guid ExperimentTypeId { get; set; }
+        public int ExperimentTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 

@@ -22,9 +22,9 @@ namespace ExperimentsApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            var connection = @"Server=DESKTOP-NHQRR6J\\SQLEXPRESS;Database=ExperimentsDB;Trusted_Connection=True";
+            var connection = @"Server=.\SQLEXPRESS;Database=ExperimentsDB;Trusted_Connection=True";
             services.AddDbContext<ExperimentsDbContext>
-                (options => options.UseSqlServer(connection));
+                (options => options.UseSqlServer(connection, b => b.MigrationsAssembly("ExperimentsApp.API")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

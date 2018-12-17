@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ExperimentsApp.Data.Model;
-using ExperimentsApp.Data.DAL.Configurations;
 
 
 namespace ExperimentsApp.Data.DAL
@@ -21,8 +20,7 @@ namespace ExperimentsApp.Data.DAL
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new MachineSensorConfiguration());
+            builder.Entity<MachineSensor>().HasKey(ms => new { ms.MachineId, ms.SensorId });
         }
-
     }
 }
