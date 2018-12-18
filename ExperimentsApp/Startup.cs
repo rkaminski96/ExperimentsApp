@@ -7,6 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using ExperimentsApp.Data.DAL;
 using ExperimentsApp.Service.Interfaces;
 using ExperimentsApp.Service.Services;
+using System.Reflection;
+using AutoMapper;
 
 namespace ExperimentsApp
 {
@@ -28,6 +30,11 @@ namespace ExperimentsApp
             services.AddScoped<IExperimentService, ExperimentService>();
             services.AddScoped<IMachineService, MachineService>();
             services.AddScoped<ISensorService, SensorService>();
+
+            services.AddAutoMapper(
+               opt => opt.CreateMissingTypeMaps = true,
+               Assembly.GetEntryAssembly());
+
 
             var connection = @"Server=.\SQLEXPRESS;Database=ExperimentsDB;Trusted_Connection=True";
             services.AddDbContext<ExperimentsDbContext>
