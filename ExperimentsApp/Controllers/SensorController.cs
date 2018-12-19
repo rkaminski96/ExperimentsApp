@@ -9,6 +9,7 @@ using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Data.DAL;
 using ExperimentsApp.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExperimentsApp.API.Controllers
 {
@@ -25,7 +26,7 @@ namespace ExperimentsApp.API.Controllers
         }
 
         // GET: api/<controller>
-        [HttpGet]
+        [HttpGet, Authorize]
         public IActionResult GetAll()
         {
             var dbList = _sensorService.GetAll();
