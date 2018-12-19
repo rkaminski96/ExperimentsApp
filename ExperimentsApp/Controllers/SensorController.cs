@@ -12,7 +12,7 @@ using ExperimentsApp.Service;
 
 namespace ExperimentsApp.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/[controller]")]
     public class SensorController : Controller
     {
         private readonly ISensorService _sensorService;

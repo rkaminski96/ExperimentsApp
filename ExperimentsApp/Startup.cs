@@ -31,14 +31,13 @@ namespace ExperimentsApp
             services.AddScoped<IMachineService, MachineService>();
             services.AddScoped<ISensorService, SensorService>();
 
-            services.AddAutoMapper(
-               opt => opt.CreateMissingTypeMaps = true,
-               Assembly.GetEntryAssembly());
-
-
             var connection = @"Server=.\SQLEXPRESS;Database=ExperimentsDB;Trusted_Connection=True";
             services.AddDbContext<ExperimentsDbContext>
                 (options => options.UseSqlServer(connection, b => b.MigrationsAssembly("ExperimentsApp.API")));
+
+            services.AddAutoMapper(
+               opt => opt.CreateMissingTypeMaps = true,
+               Assembly.GetEntryAssembly());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

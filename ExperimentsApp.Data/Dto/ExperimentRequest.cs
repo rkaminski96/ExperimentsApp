@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ExperimentsApp.Data.Dto
 {
-    public class SensorRequest
+    public class ExperimentRequest
     {
         [Required]
         [MinLength(5)]
@@ -13,10 +13,10 @@ namespace ExperimentsApp.Data.Dto
 
         [Required]
         [MinLength(5)]
-        public string Type { get; set; }
+        public string Path { get; set; }
 
         [Required]
         [MinLength(5)]
-        public string Position { get; set; }
+        public string Description { get; set; }
     }
 }
