@@ -26,13 +26,14 @@ namespace ExperimentsApp.API.Controllers
         }
 
         // GET: api/<controller>
-        [HttpGet, Authorize]
+        [HttpGet]
         public IActionResult GetAll()
         {
             var dbList = _sensorService.GetAll();
             var list = _mapper.Map<List<SensorResponse>>(dbList);
             return Ok(list);
         }
+
 
         // GET api/<controller>/5
         [HttpGet("{sensorId}")]
