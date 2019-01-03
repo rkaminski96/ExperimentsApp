@@ -7,10 +7,11 @@ namespace ExperimentsApp.Service.Interfaces
 {
     public interface IUserService
     {
-        User Authenticate(string username, string password);
+        User AuthenticateUser (string username, string password);
         List<User> GetAll();
         User GetById(int id);
         User Create(User user, string password);
         void Delete(int id);
     }
 }
+ 

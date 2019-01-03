@@ -1,10 +1,11 @@
 ﻿using ExperimentsApp.Data.DAL;
 using ExperimentsApp.Data.Model;
+using ExperimentsApp.Service.Helpers;
 using ExperimentsApp.Service.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Security.Cryptography;
 
 namespace ExperimentsApp.Service.Services
 {
@@ -17,7 +18,7 @@ namespace ExperimentsApp.Service.Services
             _experimentsDbContext = experimentsDbContext;
         }
 
-        public User Authenticate (string username, string password)
+        public User AuthenticateUser (string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
@@ -27,8 +28,11 @@ namespace ExperimentsApp.Service.Services
             // check if username exists
             if (user == null)
                 return null;
-            
-            //DO POPRAWY  
+
+            // check if password is correct
+            var passwordHash = PasswordHasher.HashPassword(password, user.PasswordSalt);
+            if (!user.PasswordHash.Equals(passwordHash))
+                return null;
 
             // authentication successful
             return user;
@@ -50,6 +54,11 @@ namespace ExperimentsApp.Service.Services
 
         public User Create(User user, string password)
         {
+            new RNGCryptoServiceProvider().GetBytes(user.PasswordSalt = new byte[32]);
+            user.PasswordHash = PasswordHasher.HashPassword(password, user.PasswordSalt);
+
+            _experimentsDbContext.Users.Add(user);
+            _experimentsDbContext.SaveChanges();
             return user;
         }
 
