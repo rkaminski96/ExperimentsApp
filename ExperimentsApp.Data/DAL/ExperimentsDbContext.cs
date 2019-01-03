@@ -12,6 +12,7 @@ namespace ExperimentsApp.Data.DAL
 
         }
 
+        public DbSet<User> Users { get; set; }
         public DbSet<Experiment> Experiments { get; set; }
         public DbSet<ExperimentType> ExperimentTypes { get; set; }
         public DbSet<Machine> Machines { get; set; }

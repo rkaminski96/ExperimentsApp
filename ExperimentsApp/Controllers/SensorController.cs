@@ -9,9 +9,11 @@ using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Data.DAL;
 using ExperimentsApp.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ExperimentsApp.API.Controllers
 {
+    [Authorize]
     [Route("/[controller]")]
     public class SensorController : Controller
     {
@@ -32,6 +34,7 @@ namespace ExperimentsApp.API.Controllers
             var list = _mapper.Map<List<SensorResponse>>(dbList);
             return Ok(list);
         }
+
 
         // GET api/<controller>/5
         [HttpGet("{sensorId}")]
