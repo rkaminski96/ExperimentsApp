@@ -6,10 +6,10 @@ namespace ExperimentsApp.Data.Model
 {
     public class MachineSensor
     {
-        public Guid MachineId { get; set; }
+        public int MachineId { get; set; }
         public Machine Machine { get; set; }
 
-        public Guid SensorId { get; set; }
+        public int SensorId { get; set; }
         public Sensor Sensor { get; set; }
     }
 }

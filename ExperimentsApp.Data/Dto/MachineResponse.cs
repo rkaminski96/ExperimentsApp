@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ExperimentsApp.Data.Model
+namespace ExperimentsApp.Data.Dto
 {
-    public class Machine
+    public class MachineResponse
     {
         public int MachineId { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
-
-        public ICollection<Experiment> Experiments { get; set; }
-
-        public IList<MachineSensor> MachineSensors { get; set; }
     }
 }
