@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ExperimentsApp.API.Controllers
 {
+    [Authorize]
     [Route("/[controller]")]
     public class SensorController : Controller
     {
