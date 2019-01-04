@@ -6,7 +6,7 @@ namespace ExperimentsApp.Data.Dto
 {
     public class ExperimentTypeResponse
     {
-        public int ExperimentTypeId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }

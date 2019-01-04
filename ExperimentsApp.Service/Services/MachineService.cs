@@ -24,7 +24,7 @@ namespace ExperimentsApp.Service.Services
         public Machine GetById(int id)
         {
             Machine foundMachine = _experimentsDbContext.Machines
-                .Where(machine => machine.MachineId == id)
+                .Where(machine => machine.Id == id)
                 .SingleOrDefault();
 
             return foundMachine;

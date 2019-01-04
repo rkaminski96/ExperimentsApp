@@ -24,7 +24,7 @@ namespace ExperimentsApp.Service.Services
         public Sensor GetById(int id)
         {
             Sensor foundSensor = _experimentsDbContext.Sensors
-                .Where(sensor => sensor.SensorId == id)
+                .Where(sensor => sensor.Id == id)
                 .SingleOrDefault();
 
             return foundSensor;

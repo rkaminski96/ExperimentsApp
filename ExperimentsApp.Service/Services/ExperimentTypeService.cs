@@ -24,7 +24,7 @@ namespace ExperimentsApp.Service.Services
         public ExperimentType GetById(int id)
         {
             ExperimentType foundExperimentType = _experimentsDbContext.ExperimentTypes
-                .Where(exoerimentType => exoerimentType.ExperimentTypeId == id)
+                .Where(experimentType => experimentType.Id == id)
                 .SingleOrDefault();
 
             return foundExperimentType;

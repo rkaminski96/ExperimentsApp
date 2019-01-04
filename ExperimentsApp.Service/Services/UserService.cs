@@ -25,16 +25,13 @@ namespace ExperimentsApp.Service.Services
 
             var user = _experimentsDbContext.Users.SingleOrDefault(x => x.Username == username);
 
-            // check if username exists
             if (user == null)
                 return null;
 
-            // check if password is correct
             var passwordHash = PasswordHasher.HashPassword(password, user.PasswordSalt);
             if (!user.PasswordHash.Equals(passwordHash))
                 return null;
 
-            // authentication successful
             return user;
         }
 
