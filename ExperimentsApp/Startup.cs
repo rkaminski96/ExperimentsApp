@@ -15,6 +15,7 @@ using System.Text;
 using ExperimentsApp.API.Helpers;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace ExperimentsApp
 {
@@ -82,6 +83,11 @@ namespace ExperimentsApp
             services.AddScoped<IMachineService, MachineService>();
             services.AddScoped<ISensorService, SensorService>();
             services.AddScoped<IUserService, UserService>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "ExperimentsApp", Version = "v1" });
+            });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -101,6 +107,12 @@ namespace ExperimentsApp
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Experiments App");
+                });
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
