@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ExperimentsApp.Data.Dto
+﻿namespace ExperimentsApp.Data.Dto
 {
     public class SensorResponse
     {

@@ -1,10 +1,6 @@
 ﻿using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ExperimentsApp.API.Mapping
 {

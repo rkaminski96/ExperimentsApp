@@ -14,7 +14,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ExperimentsApp.API.Helpers;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ExperimentsApp
@@ -90,7 +89,7 @@ namespace ExperimentsApp
             });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {

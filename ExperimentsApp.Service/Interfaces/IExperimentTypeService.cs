@@ -1,7 +1,5 @@
 ﻿using ExperimentsApp.Data.Model;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ExperimentsApp.Service.Interfaces
 {

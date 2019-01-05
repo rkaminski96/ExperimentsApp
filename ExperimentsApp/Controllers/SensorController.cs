@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using ExperimentsApp.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
-using ExperimentsApp.Data.DAL;
-using ExperimentsApp.Service;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ExperimentsApp.API.Controllers
