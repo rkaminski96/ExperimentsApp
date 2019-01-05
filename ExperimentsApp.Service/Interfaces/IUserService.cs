@@ -1,17 +1,18 @@
 ﻿using ExperimentsApp.Data.Model;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace ExperimentsApp.Service.Interfaces
 {
     public interface IUserService
     {
-        User AuthenticateUser (string username, string password);
-        List<User> GetAll();
-        User GetById(int id);
-        User Create(User user, string password);
-        void Delete(int id);
+        bool AuthenticateUser(User user, string password);
+        Task<IList<User>> GetUsersAsync();
+        Task<User> GetUserByIdAsync(int id);
+        Task<User> FindUserByUsernameAsync(string username);
+        Task CreateUserAsync(User user, string password);
+        Task DeleteUserAsync(User user);
+        Task<bool> SaveChangesAsync();
     }
 }
  

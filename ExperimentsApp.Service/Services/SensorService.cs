@@ -39,7 +39,7 @@ namespace ExperimentsApp.Service.Services
         public void RemoveSensor(int id)
         {
             Sensor sensor = GetById(id);
-            if (sensor == null)
+            if (sensor == null) 
             {
                 return;
             }

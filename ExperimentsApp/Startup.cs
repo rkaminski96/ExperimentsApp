@@ -58,7 +58,7 @@ namespace ExperimentsApp
                     {
                         var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
                         var userId = int.Parse(context.Principal.Identity.Name);
-                        var user = userService.GetById(userId);
+                        var user = userService.GetUserByIdAsync(userId);
                         if (user == null)
                         {
                             context.Fail("Unauthorized");
