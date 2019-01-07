@@ -22,6 +22,9 @@ namespace ExperimentsApp.API.Mapping
 
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+
+            CreateMap<User, UserRegistrationDto>();
+            CreateMap<UserRegistrationDto, User>();
         }
     }
 }

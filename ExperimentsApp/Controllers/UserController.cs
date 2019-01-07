@@ -71,21 +71,21 @@ namespace ExperimentsApp.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]UserDto userDto)
+        public async Task<IActionResult> Register([FromBody]UserRegistrationDto userRegistrationDto)
         {
-            if (await _userService.FindUserByUsernameAsync(userDto.Username) != null)
+            if (await _userService.FindUserByUsernameAsync(userRegistrationDto.Username) != null)
                 return BadRequest("This username is already taken");
 
-            if (string.IsNullOrWhiteSpace(userDto.Password))
+            if (string.IsNullOrWhiteSpace(userRegistrationDto.Password))
                 return BadRequest("Password is required");
 
-            var user = _mapper.Map<User>(userDto);
+            var user = _mapper.Map<User>(userRegistrationDto);
 
-            await _userService.CreateUserAsync(user, userDto.Password);
+            await _userService.CreateUserAsync(user, userRegistrationDto.Password);
             if (!await _userService.SaveChangesAsync())
                 return StatusCode(500, "A problem with saving user");
 
-            return Ok();
+            return Ok("Registration completed successfully");
         }
 
         
