@@ -21,7 +21,7 @@ namespace ExperimentsApp.API.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/<controller>
+        
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -31,7 +31,6 @@ namespace ExperimentsApp.API.Controllers
         }
 
 
-        // GET api/<controller>/5
         [HttpGet("{sensorId}")]
         public IActionResult GetById(int sensorId)
         {
@@ -44,7 +43,7 @@ namespace ExperimentsApp.API.Controllers
             return Ok(_mapper.Map<SensorResponse>(sensor));
         }
 
-        // POST api/<controller>
+
         [HttpPost]
         public IActionResult Post([FromBody]SensorRequest sensor)
         {
@@ -53,7 +52,6 @@ namespace ExperimentsApp.API.Controllers
         }
 
 
-        // DELETE api/<controller>/5
         [HttpDelete("{sensorId}")]
         public IActionResult Delete(int sensorId)
         {

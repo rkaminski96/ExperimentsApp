@@ -15,6 +15,7 @@ using System.Text;
 using ExperimentsApp.API.Helpers;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Swagger;
+using Hangfire;
 
 namespace ExperimentsApp
 {
@@ -32,6 +33,9 @@ namespace ExperimentsApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
+
+            services.AddHangfire(config =>
+                config.UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection")));
 
             services.AddDbContext<ExperimentsDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ExperimentsDB"), b => b.MigrationsAssembly("ExperimentsApp.API")));
@@ -115,6 +119,10 @@ namespace ExperimentsApp
 
             app.UseAuthentication();
             app.UseHttpsRedirection();
+
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+
             app.UseMvc();
         }
     }
