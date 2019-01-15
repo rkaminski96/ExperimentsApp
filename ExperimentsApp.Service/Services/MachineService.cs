@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExperimentsApp.Data.DAL;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExperimentsApp.Service.Services
 {
@@ -15,36 +17,31 @@ namespace ExperimentsApp.Service.Services
             _experimentsDbContext = experimentsDbContext;
         }
 
-        public List<Machine> GetAll()
+        public async Task<IList<Machine>> GetMachinesAsync()
         {
-            return _experimentsDbContext.Machines.ToList();
+            return await _experimentsDbContext.Machines.ToListAsync();
         }
 
-        public Machine GetById(int id)
+        public async Task<Machine> GetMachineByIdAsync(int id)
         {
-            Machine foundMachine = _experimentsDbContext.Machines
-                .Where(machine => machine.Id == id)
-                .SingleOrDefault();
-
-            return foundMachine;
+            var machine = await _experimentsDbContext.Machines.FirstOrDefaultAsync(s => s.Id == id);
+            return machine;
         }
 
-        public void AddNewMachine(Machine machine)
+        public async Task AddMachineAsync(Machine machine)
         {
-            _experimentsDbContext.Machines.Add(machine);
-            _experimentsDbContext.SaveChanges();
+            await _experimentsDbContext.Machines.AddAsync(machine);
         }
 
-        public void RemoveMachine(int id)
+        public async Task DeleteMachineAsync(Machine machine)
         {
-            Machine machine = GetById(id);
-            if (machine == null)
-            {
-                return;
-            }
-
             _experimentsDbContext.Machines.Remove(machine);
-            _experimentsDbContext.SaveChanges();
+            await Task.CompletedTask;
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await _experimentsDbContext.SaveChangesAsync() >= 0;
         }
     }
 }

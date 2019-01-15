@@ -5,6 +5,7 @@ using AutoMapper;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace ExperimentsApp.API.Controllers
 {
@@ -23,40 +24,51 @@ namespace ExperimentsApp.API.Controllers
 
         
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetSensors()
         {
-            var dbList = _sensorService.GetAll();
-            var list = _mapper.Map<List<SensorResponse>>(dbList);
-            return Ok(list);
+            var sensors = await _sensorService.GetSensorsAsync();
+            var sensorResponse = _mapper.Map<IList<SensorResponse>>(sensors);
+            return Ok(sensorResponse);
         }
 
 
         [HttpGet("{sensorId}")]
-        public IActionResult GetById(int sensorId)
+        public async Task<IActionResult> GetSensor(int sensorId)
         {
-            Sensor sensor = _sensorService.GetById(sensorId);
+            var sensor = await _sensorService.GetSensorByIdAsync(sensorId);
             if (sensor == null)
-            {
-                return NotFound();
-            }
+                return BadRequest("Sensor not found");
 
-            return Ok(_mapper.Map<SensorResponse>(sensor));
+            var sensorResponse = _mapper.Map<SensorResponse>(sensor);
+            return Ok(sensorResponse);
         }
 
-
         [HttpPost]
-        public IActionResult Post([FromBody]SensorRequest sensor)
+        public async Task<IActionResult> AddSensor([FromBody]SensorRequest sensorRequest)
         {
-            _sensorService.AddNewSensor(_mapper.Map<Sensor>(sensor));
+            var sensor = _mapper.Map<Sensor>(sensorRequest);
+
+            await _sensorService.AddSensorAsync(sensor);
+            if (!await _sensorService.SaveChangesAsync())
+                return StatusCode(500, "A problem with saving sensor in database");
+
             return Ok();
         }
 
 
         [HttpDelete("{sensorId}")]
-        public IActionResult Delete(int sensorId)
+        public async Task<IActionResult> DeleteSensor(int id)
         {
-            _sensorService.RemoveSensor(sensorId);
-            return Ok();
+            var sensor  = await _sensorService.GetSensorByIdAsync(id);
+            if (sensor == null)
+                return BadRequest("Sensor not found");
+
+            await _sensorService.DeleteSensorAsync(sensor);
+
+            if (!await _sensorService.SaveChangesAsync())
+                return StatusCode(500, "A problem with saving changes");
+
+            return NoContent();
         }
     }
 }

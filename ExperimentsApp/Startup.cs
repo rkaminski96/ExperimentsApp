@@ -126,7 +126,7 @@ namespace ExperimentsApp
             app.UseHangfireDashboard();
             app.UseHangfireServer();
 
-            RecurringJob.AddOrUpdate<IFileService>(ms => ms.DirectoryPath(), Cron.MinuteInterval(1));
+            RecurringJob.AddOrUpdate<IFileService>(ms => ms.MoveDirectory(), Cron.MinuteInterval(1));
 
             app.UseMvc();
         }
