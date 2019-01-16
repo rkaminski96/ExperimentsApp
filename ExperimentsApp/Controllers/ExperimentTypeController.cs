@@ -9,8 +9,6 @@ using ExperimentsApp.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
-
 namespace ExperimentsApp.API.Controllers
 {
     [Authorize]
