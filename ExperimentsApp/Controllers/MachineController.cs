@@ -13,7 +13,7 @@ using Machine = ExperimentsApp.Data.Model.Machine;
 namespace ExperimentsApp.API.Controllers
 {
     [Authorize]
-    [Route("api/controller/")]
+    [Route("/[controller]")]
     public class MachineController : Controller
     {
         private readonly IMachineService _machineService;

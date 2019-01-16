@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExperimentsApp.API.Controllers
 {
     [Authorize]
-    [Route("api/controller/")]
+    [Route("/[controller]")]
     public class ExperimentTypeController : Controller
     {
         private readonly IExperimentTypeService _experimentTypeService;

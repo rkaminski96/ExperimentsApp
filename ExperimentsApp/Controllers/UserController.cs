@@ -18,7 +18,7 @@ namespace ExperimentsApp.API.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/controller/ ")]
+    [Route("/[controller]")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;

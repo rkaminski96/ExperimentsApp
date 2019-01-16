@@ -117,7 +117,7 @@ namespace ExperimentsApp
             app.UseSwagger();
             app.UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Experiments App");
+                    c.SwaggerEndpoint("swagger/v1/swagger.json", "Experiments App");
                 });
 
             app.UseAuthentication();
