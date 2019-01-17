@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExperimentsApp.Data.DAL;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExperimentsApp.Service.Services
 {
@@ -16,36 +17,31 @@ namespace ExperimentsApp.Service.Services
             _experimentsDbContext = experimentsDbContext;
         }
 
-        public List<ExperimentType> GetAll()
+        public async Task<IList<ExperimentType>> GetExperimentTypesAsync()
         {
-            return _experimentsDbContext.ExperimentTypes.ToList();
+            return await _experimentsDbContext.ExperimentTypes.ToListAsync();
         }
 
-        public ExperimentType GetById(int id)
+        public async Task<ExperimentType> GetExperimentTypeByIdAsync(int id)
         {
-            ExperimentType foundExperimentType = _experimentsDbContext.ExperimentTypes
-                .Where(exoerimentType => exoerimentType.ExperimentTypeId == id)
-                .SingleOrDefault();
-
-            return foundExperimentType;
+            var experimentType = await _experimentsDbContext.ExperimentTypes.FirstOrDefaultAsync(s => s.Id == id);
+            return experimentType;
         }
 
-        public void AddNewExperimentType(ExperimentType experimentType)
+        public async Task AddExperimentTypeAsync(ExperimentType experimentType)
         {
-            _experimentsDbContext.ExperimentTypes.Add(experimentType);
-            _experimentsDbContext.SaveChanges();
+            await _experimentsDbContext.ExperimentTypes.AddAsync(experimentType);         
         }
 
-        public void RemoveExperimentType(int id)
+        public async Task DeleteExperimentTypeAsync(ExperimentType experimentType)
         {
-            ExperimentType experimentType = GetById(id);
-            if (experimentType == null)
-            {
-                return;
-            }
-
             _experimentsDbContext.ExperimentTypes.Remove(experimentType);
-            _experimentsDbContext.SaveChanges();
+            await Task.CompletedTask;
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await _experimentsDbContext.SaveChangesAsync() >= 0;
         }
     }
 }

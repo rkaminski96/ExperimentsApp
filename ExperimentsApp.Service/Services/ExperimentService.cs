@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using ExperimentsApp.Data.DAL;
 using ExperimentsApp.Data.Model;
@@ -24,7 +23,7 @@ namespace ExperimentsApp.Service.Services
         public Experiment GetById(int id)
         {
             Experiment foundExperiment = _experimentsDbContext.Experiments
-                .Where(experiment => experiment.ExperimentId == id)
+                .Where(experiment => experiment.Id == id)
                 .SingleOrDefault();
 
             return foundExperiment;

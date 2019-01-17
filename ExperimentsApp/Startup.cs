@@ -14,7 +14,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ExperimentsApp.API.Helpers;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Swagger;
+using Hangfire;
+using System;
+using System.Diagnostics;
 
 namespace ExperimentsApp
 {
@@ -32,6 +35,9 @@ namespace ExperimentsApp
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
+
+            services.AddHangfire(config =>
+                config.UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection")));
 
             services.AddDbContext<ExperimentsDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("ExperimentsDB"), b => b.MigrationsAssembly("ExperimentsApp.API")));
@@ -58,7 +64,7 @@ namespace ExperimentsApp
                     {
                         var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
                         var userId = int.Parse(context.Principal.Identity.Name);
-                        var user = userService.GetById(userId);
+                        var user = userService.GetUserByIdAsync(userId);
                         if (user == null)
                         {
                             context.Fail("Unauthorized");
@@ -82,9 +88,15 @@ namespace ExperimentsApp
             services.AddScoped<IMachineService, MachineService>();
             services.AddScoped<ISensorService, SensorService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IFileService, FileService>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "ExperimentsApp", Version = "v1" });
+            });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -102,8 +114,20 @@ namespace ExperimentsApp
                 .AllowAnyHeader()
                 .AllowCredentials());
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Experiments App");
+                });
+
             app.UseAuthentication();
             app.UseHttpsRedirection();
+
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
+
+            RecurringJob.AddOrUpdate<IFileService>(ms => ms.MoveDirectory(), Cron.MinuteInterval(1));
+
             app.UseMvc();
         }
     }

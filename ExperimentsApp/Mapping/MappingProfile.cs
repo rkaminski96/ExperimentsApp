@@ -1,10 +1,6 @@
 ﻿using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ExperimentsApp.API.Mapping
 {
@@ -26,6 +22,9 @@ namespace ExperimentsApp.API.Mapping
 
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+
+            CreateMap<User, UserRegistrationDto>();
+            CreateMap<UserRegistrationDto, User>();
         }
     }
 }

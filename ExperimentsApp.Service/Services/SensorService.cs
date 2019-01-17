@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExperimentsApp.Data.DAL;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExperimentsApp.Service.Services
 {
@@ -16,36 +17,30 @@ namespace ExperimentsApp.Service.Services
             _experimentsDbContext = experimentsDbContext;
         }
 
-        public List<Sensor> GetAll()
+        public async Task<IList<Sensor>> GetSensorsAsync()
         {
-            return _experimentsDbContext.Sensors.ToList();
+            return await _experimentsDbContext.Sensors.ToListAsync();
         }
 
-        public Sensor GetById(int id)
+        public async Task<Sensor> GetSensorByIdAsync(int id)
         {
-            Sensor foundSensor = _experimentsDbContext.Sensors
-                .Where(sensor => sensor.SensorId == id)
-                .SingleOrDefault();
-
-            return foundSensor;
+            return await _experimentsDbContext.Sensors.FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public void AddNewSensor(Sensor sensor)
+        public async Task AddSensorAsync(Sensor sensor)
         {
-            _experimentsDbContext.Sensors.Add(sensor);
-            _experimentsDbContext.SaveChanges();
+            await _experimentsDbContext.AddAsync(sensor);
         }
 
-        public void RemoveSensor(int id)
+        public async Task DeleteSensorAsync(Sensor sensor)
         {
-            Sensor sensor = GetById(id);
-            if (sensor == null)
-            {
-                return;
-            }
-
             _experimentsDbContext.Sensors.Remove(sensor);
-            _experimentsDbContext.SaveChanges();
+            await Task.CompletedTask;
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await _experimentsDbContext.SaveChangesAsync() >= 0;
         }
     }
 }

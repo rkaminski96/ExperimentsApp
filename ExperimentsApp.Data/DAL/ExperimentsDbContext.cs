@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ExperimentsApp.Data.Model;
 
-
 namespace ExperimentsApp.Data.DAL
 {
     public class ExperimentsDbContext : DbContext

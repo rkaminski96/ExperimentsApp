@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,11 +34,15 @@ namespace ExperimentsApp.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]UserDto userDto)
+        public async Task<IActionResult> Authenticate([FromBody]UserDto userDto)
         {
-            var user = _userService.AuthenticateUser(userDto.Username, userDto.Password);
+            var user = await _userService.FindUserByUsernameAsync(userDto.Username);
             if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                return BadRequest("User not found");
+            
+            if(!_userService.AuthenticateUser(user, userDto.Password))
+                return BadRequest("Incorrect username or password");
+
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -68,49 +71,57 @@ namespace ExperimentsApp.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody]UserDto userDto)
+        public async Task<IActionResult> Register([FromBody]UserRegistrationDto userRegistrationDto)
         {
-            // map dto to entity
-            var user = _mapper.Map<User>(userDto);
+            if (await _userService.FindUserByUsernameAsync(userRegistrationDto.Username) != null)
+                return BadRequest("This username is already taken");
 
-            try
-            {
-                // save 
-                _userService.Create(user, userDto.Password);
-                return Ok();
-            }
-            catch (AppException ex)
-            {
-                // return error message if there was an exception
-                return BadRequest(new { message = ex.Message });
-            }
+            if (string.IsNullOrWhiteSpace(userRegistrationDto.Password))
+                return BadRequest("Password is required");
+
+            var user = _mapper.Map<User>(userRegistrationDto);
+
+            await _userService.CreateUserAsync(user, userRegistrationDto.Password);
+            if (!await _userService.SaveChangesAsync())
+                return StatusCode(500, "A problem with saving user");
+
+            return Ok("Registration completed successfully");
         }
 
-
+        
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var users = _userService.GetAll();
+            var users = await _userService.GetUsersAsync();
             var userDtos = _mapper.Map<IList<UserDto>>(users);
             return Ok(userDtos);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var user = _userService.GetById(id);
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return BadRequest("User not found");
+
             var userDto = _mapper.Map<UserDto>(user);
             return Ok(userDto);
         }
 
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _userService.Delete(id);
-            return Ok();
-        }
-        
+            var user = await _userService.GetUserByIdAsync(id);
+            if (user == null)
+                return BadRequest("User not found");
 
+            await _userService.DeleteUserAsync(user);
+
+            if (!await _userService.SaveChangesAsync())
+                return StatusCode(500, "A problem with saving changes");
+            
+            return NoContent();
+        }   
     }
 }
