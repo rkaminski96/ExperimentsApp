@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ExperimentsApp.Data.Model;
 
 namespace ExperimentsApp.Service.Interfaces
 {
     public interface ISensorService
     {
-        List<Sensor> GetAll();
-        Sensor GetById(int id);
-        void AddNewSensor(Sensor sensor);
-        void RemoveSensor(int id);
+        Task<IList<Sensor>> GetSensorsAsync();
+        Task<Sensor> GetSensorByIdAsync(int id);
+        Task AddSensorAsync(Sensor sensor);
+        Task DeleteSensorAsync(Sensor sensor);
+        Task<bool> SaveChangesAsync();
     }
 }
