@@ -13,6 +13,7 @@ namespace ExperimentsApp.Service.Interfaces
         Task CreateUserAsync(User user, string password);
         Task DeleteUserAsync(User user);
         Task<bool> SaveChangesAsync();
+        object GenerateToken(User user);
     }
 }
  

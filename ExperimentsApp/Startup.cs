@@ -12,7 +12,6 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using ExperimentsApp.API.Helpers;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Swagger;
 using Hangfire;
@@ -46,11 +45,7 @@ namespace ExperimentsApp
                 opt => opt.CreateMissingTypeMaps = true,
                 Assembly.GetEntryAssembly());
 
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
 
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -77,18 +72,20 @@ namespace ExperimentsApp
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"])),
                     ValidateIssuer = false,
                     ValidateAudience = false
                 };
             });
 
+            services.AddSingleton(Configuration);
             services.AddScoped<IExperimentTypeService, ExperimentTypeService>();
             services.AddScoped<IExperimentService, ExperimentService>();
             services.AddScoped<IMachineService, MachineService>();
             services.AddScoped<ISensorService, SensorService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
+
 
             services.AddSwaggerGen(c =>
             {

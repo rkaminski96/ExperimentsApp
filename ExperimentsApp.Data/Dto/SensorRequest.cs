@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ExperimentsApp.Data.Dto
 {
@@ -15,5 +16,7 @@ namespace ExperimentsApp.Data.Dto
         [Required]
         [MinLength(5)]
         public string Position { get; set; }
+
+        public List<KeyValuePair<string, string>> kvSensor;
     }
 }
