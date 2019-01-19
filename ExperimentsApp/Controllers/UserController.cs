@@ -76,10 +76,10 @@ namespace ExperimentsApp.API.Controllers
             return Ok(userDtos);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetById(int userId)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetUserByIdAsync(userId);
             if (user == null)
                 return BadRequest("User not found");
 
@@ -88,14 +88,14 @@ namespace ExperimentsApp.API.Controllers
         }
 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> Delete(int userId)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.Name));
-            if (userId != id)
+            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.Name));
+            if (currentUserId != userId)
                 return Unauthorized();
 
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetUserByIdAsync(userId);
             if (user == null)
                 return BadRequest("User not found");
 

@@ -57,19 +57,19 @@ namespace ExperimentsApp.Service.Services
 
         public object GenerateToken(User user)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Tokens:Key"]);
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var claims = new[]
             {
-                Subject = new ClaimsIdentity(new Claim[]
-               {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-               }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                new Claim(ClaimTypes.Name, user.Id.ToString())
             };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(_configuration["Tokens:Issuer"],
+                _configuration["Tokens:Issuer"],
+                claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
 
             var authenticatedUser = new
             {
@@ -77,7 +77,7 @@ namespace ExperimentsApp.Service.Services
                 Username = user.Username,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Token = tokenString
+                Token = new JwtSecurityTokenHandler().WriteToken(token)
             };
 
             return authenticatedUser;
