@@ -15,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Swagger;
 using Hangfire;
-
+using ExperimentsApp.API.Filters;
 
 namespace ExperimentsApp
 {
@@ -31,7 +31,12 @@ namespace ExperimentsApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options =>
+                {
+                    options.Filters.Add(typeof(ValidateModelAttribute));
+                })
+               .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             services.AddCors();
 
             services.AddHangfire(config =>

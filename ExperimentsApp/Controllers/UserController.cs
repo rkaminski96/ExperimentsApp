@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExperimentsApp.API.Controllers
 {
     [Authorize]
-    [ApiController]
     [Route("/[controller]")]
     public class UserController : Controller
     {
