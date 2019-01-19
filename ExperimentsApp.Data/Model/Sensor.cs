@@ -8,7 +8,7 @@ namespace ExperimentsApp.Data.Model
         public string Name { get; set; }
         public string Type { get; set; }
         public string Position { get; set; }
-        public Dictionary<string, string> sensorProperties { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> SensorProperties { get; set; } = new Dictionary<string, string>();
 
         public IList<MachineSensor> MachineSensors { get; set; }
     }

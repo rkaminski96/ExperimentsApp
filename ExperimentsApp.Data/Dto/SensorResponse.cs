@@ -8,6 +8,6 @@ namespace ExperimentsApp.Data.Dto
         public string Name { get; set; }
         public string Type { get; set; }
         public string Position { get; set; }
-        public Dictionary<string, string> sensorProperties { get; set; } 
+        public Dictionary<string, string> SensorProperties { get; set; } 
     }
 }

@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 using AutoMapper;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using ExperimentsApp.Data.Model;
 using Microsoft.AspNetCore.Mvc;
 using Machine = ExperimentsApp.Data.Model.Machine;
 

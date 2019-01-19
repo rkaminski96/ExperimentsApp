@@ -24,7 +24,7 @@ namespace ExperimentsApp.Data.DAL
         {  
             builder.Entity<MachineSensor>().HasKey(ms => new { ms.MachineId, ms.SensorId });
             builder.Entity<Sensor>()
-                .Property(b => b.sensorProperties)
+                .Property(b => b.SensorProperties)
                 .HasConversion(
                     v => JsonConvert.SerializeObject(v),
                     v => JsonConvert.DeserializeObject<Dictionary<string, string>>(v));

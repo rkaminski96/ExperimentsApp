@@ -6,7 +6,6 @@ using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
-using System.Security.Claims;
 
 namespace ExperimentsApp.API.Controllers
 {

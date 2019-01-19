@@ -103,9 +103,9 @@ namespace ExperimentsApp.API.Migrations
 
                     b.Property<string>("Position");
 
-                    b.Property<string>("Type");
+                    b.Property<string>("SensorProperties");
 
-                    b.Property<string>("sensorProperties");
+                    b.Property<string>("Type");
 
                     b.HasKey("Id");
 

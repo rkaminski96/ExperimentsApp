@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.Configuration;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+
 
 namespace ExperimentsApp.API.Controllers
 {
@@ -32,13 +27,13 @@ namespace ExperimentsApp.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody]UserDto userDto)
+        public async Task<IActionResult> Authenticate([FromBody]UserLogin userLogin)
         {
-            var user = await _userService.FindUserByUsernameAsync(userDto.Username);
+            var user = await _userService.FindUserByUsernameAsync(userLogin.Username);
             if (user == null)
                 return BadRequest("User not found");
             
-            if(!_userService.AuthenticateUser(user, userDto.Password))
+            if(!_userService.AuthenticateUser(user, userLogin.Password))
                 return BadRequest("Incorrect username or password");
 
             var authenticatedUser = _userService.GenerateToken(user);
@@ -48,17 +43,17 @@ namespace ExperimentsApp.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody]UserRegistrationDto userRegistrationDto)
+        public async Task<IActionResult> Register([FromBody]UserRegistration userRegistration)
         {
-            if (await _userService.FindUserByUsernameAsync(userRegistrationDto.Username) != null)
+            if (await _userService.FindUserByUsernameAsync(userRegistration.Username) != null)
                 return BadRequest("This username is already taken");
 
-            if (string.IsNullOrWhiteSpace(userRegistrationDto.Password))
+            if (string.IsNullOrWhiteSpace(userRegistration.Password))
                 return BadRequest("Password is required");
 
-            var user = _mapper.Map<User>(userRegistrationDto);
+            var user = _mapper.Map<User>(userRegistration);
 
-            await _userService.CreateUserAsync(user, userRegistrationDto.Password);
+            await _userService.CreateUserAsync(user, userRegistration.Password);
             if (!await _userService.SaveChangesAsync())
                 return StatusCode(500, "A problem with saving user");
 
@@ -72,7 +67,7 @@ namespace ExperimentsApp.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var users = await _userService.GetUsersAsync();
-            var userDtos = _mapper.Map<IList<UserDto>>(users);
+            var userDtos = _mapper.Map<IList<UserDisplay>>(users);
             return Ok(userDtos);
         }
 
@@ -83,7 +78,7 @@ namespace ExperimentsApp.API.Controllers
             if (user == null)
                 return BadRequest("User not found");
 
-            var userDto = _mapper.Map<UserDto>(user);
+            var userDto = _mapper.Map<UserDisplay>(user);
             return Ok(userDto);
         }
 

@@ -18,6 +18,7 @@ namespace ExperimentsApp.Data.Dto
         public string Position { get; set; }
 
         [Required]
-        public Dictionary<string, string> sensorProperties { get; set; } 
+        [Display(Name = "Sensor Properties")]
+        public Dictionary<string, string> SensorProperties { get; set; } 
     }
 }
