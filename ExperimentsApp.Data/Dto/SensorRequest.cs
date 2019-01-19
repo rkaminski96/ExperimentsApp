@@ -17,6 +17,7 @@ namespace ExperimentsApp.Data.Dto
         [MinLength(5)]
         public string Position { get; set; }
 
-        public List<KeyValuePair<string, string>> kvSensor;
+        [Required]
+        public Dictionary<string, string> sensorProperties { get; set; } 
     }
 }
