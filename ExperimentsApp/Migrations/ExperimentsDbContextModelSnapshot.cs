@@ -15,7 +15,7 @@ namespace ExperimentsApp.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
+                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -102,6 +102,8 @@ namespace ExperimentsApp.API.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("Position");
+
+                    b.Property<string>("SensorProperties");
 
                     b.Property<string>("Type");
 

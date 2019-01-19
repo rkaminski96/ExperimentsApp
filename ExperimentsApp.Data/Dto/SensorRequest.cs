@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ExperimentsApp.Data.Dto
 {
@@ -15,5 +16,9 @@ namespace ExperimentsApp.Data.Dto
         [Required]
         [MinLength(5)]
         public string Position { get; set; }
+
+        [Required]
+        [Display(Name = "Sensor Properties")]
+        public Dictionary<string, string> SensorProperties { get; set; } 
     }
 }

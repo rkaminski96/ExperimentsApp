@@ -57,9 +57,9 @@ namespace ExperimentsApp.API.Controllers
 
 
         [HttpDelete("{sensorId}")]
-        public async Task<IActionResult> DeleteSensor(int id)
-        {
-            var sensor  = await _sensorService.GetSensorByIdAsync(id);
+        public async Task<IActionResult> DeleteSensor(int sensorId)
+        { 
+            var sensor  = await _sensorService.GetSensorByIdAsync(sensorId);
             if (sensor == null)
                 return BadRequest("Sensor not found");
 

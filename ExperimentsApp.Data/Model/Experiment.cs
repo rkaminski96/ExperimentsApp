@@ -20,3 +20,4 @@ namespace ExperimentsApp.Data.Model
         public Machine Machine { get; set; }
     }
 }
+ 

@@ -20,11 +20,9 @@ namespace ExperimentsApp.API.Mapping
             CreateMap<SensorRequest, Sensor>();
             CreateMap<Sensor, SensorResponse>();
 
-            CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
-
-            CreateMap<User, UserRegistrationDto>();
-            CreateMap<UserRegistrationDto, User>();
+            CreateMap<User, UserDisplay>();
+            CreateMap<UserLogin, User>();
+            CreateMap<UserRegistration, User>();
         }
     }
 }

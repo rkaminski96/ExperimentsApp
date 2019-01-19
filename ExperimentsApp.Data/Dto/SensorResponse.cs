@@ -1,4 +1,6 @@
-﻿namespace ExperimentsApp.Data.Dto
+﻿using System.Collections.Generic;
+
+namespace ExperimentsApp.Data.Dto
 {
     public class SensorResponse
     {
@@ -6,5 +8,6 @@
         public string Name { get; set; }
         public string Type { get; set; }
         public string Position { get; set; }
+        public Dictionary<string, string> SensorProperties { get; set; } 
     }
 }
