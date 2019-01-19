@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ExperimentsApp.Data.Model;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace ExperimentsApp.Data.DAL
 {
@@ -19,8 +21,13 @@ namespace ExperimentsApp.Data.DAL
         public DbSet<MachineSensor> MachineSensors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
-        {
+        {  
             builder.Entity<MachineSensor>().HasKey(ms => new { ms.MachineId, ms.SensorId });
+            builder.Entity<Sensor>()
+                .Property(b => b.sensorProperties)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<Dictionary<string, string>>(v));
         }
     }
 }

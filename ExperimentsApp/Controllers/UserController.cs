@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using ExperimentsApp.API.Helpers;
+using AutoMapper.Configuration;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
@@ -23,13 +23,11 @@ namespace ExperimentsApp.API.Controllers
     {
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
-        private AppSettings _appSettings;
 
-        public UserController(IUserService userService, IMapper mapper, IOptions<AppSettings> appSettings)
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
             _mapper = mapper;
-            _appSettings = appSettings.Value;
         }
 
         [AllowAnonymous]
@@ -43,29 +41,8 @@ namespace ExperimentsApp.API.Controllers
             if(!_userService.AuthenticateUser(user, userDto.Password))
                 return BadRequest("Incorrect username or password");
 
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-               {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-               }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
-
-            return Ok(new
-            {
-                Id = user.Id,
-                Username = user.Username,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Token = tokenString
-            });
+            var authenticatedUser = _userService.GenerateToken(user);
+            return Ok(authenticatedUser);
         }
 
 
@@ -89,6 +66,8 @@ namespace ExperimentsApp.API.Controllers
         }
 
         
+
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -97,10 +76,10 @@ namespace ExperimentsApp.API.Controllers
             return Ok(userDtos);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetById(int userId)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetUserByIdAsync(userId);
             if (user == null)
                 return BadRequest("User not found");
 
@@ -109,10 +88,14 @@ namespace ExperimentsApp.API.Controllers
         }
 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> Delete(int userId)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.Name));
+            if (currentUserId != userId)
+                return Unauthorized();
+
+            var user = await _userService.GetUserByIdAsync(userId);
             if (user == null)
                 return BadRequest("User not found");
 

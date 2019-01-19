@@ -59,9 +59,9 @@ namespace ExperimentsApp.API.Controllers
 
 
         [HttpDelete("{machineId}")]
-        public async Task<IActionResult> DeleteMachine(int id)
+        public async Task<IActionResult> DeleteMachine(int machineId)
         {
-            var machine = await _machineService.GetMachineByIdAsync(id);
+            var machine = await _machineService.GetMachineByIdAsync(machineId);
             if (machine == null)
                 return BadRequest("Machine not found");
 
