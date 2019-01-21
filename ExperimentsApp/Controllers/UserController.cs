@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExperimentsApp.API.Controllers
 {
     [Authorize]
-    [Route("/[controller]")]
+    [Route("/api/user")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
