@@ -22,9 +22,9 @@ namespace ExperimentsApp.Service.Services
             return await _experimentsDbContext.Machines.ToListAsync();
         }
 
-        public async Task<Machine> GetMachineByIdAsync(int id)
+        public async Task<Machine> GetMachineByIdAsync(int machineId)
         {
-            var machine = await _experimentsDbContext.Machines.FirstOrDefaultAsync(s => s.Id == id);
+            var machine = await _experimentsDbContext.Machines.FirstOrDefaultAsync(s => s.Id == machineId);
             return machine;
         }
 

@@ -9,7 +9,5 @@ namespace ExperimentsApp.Data.Model
         public string Type { get; set; }
 
         public ICollection<Experiment> Experiments { get; set; }
-
-        public IList<MachineSensor> MachineSensors { get; set; }
     }
 }

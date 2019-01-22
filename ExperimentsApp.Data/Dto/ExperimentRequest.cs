@@ -6,11 +6,8 @@ namespace ExperimentsApp.Data.Dto
     {
         [Required]
         [MinLength(5)]
+        [MaxLength(40)]
         public string Name { get; set; }
-
-        [Required]
-        [MinLength(5)]
-        public string Path { get; set; }
 
         [Required]
         [MinLength(5)]

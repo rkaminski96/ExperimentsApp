@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ExperimentsApp.API.Controllers
 {
     [Authorize]
-    [Route("/[controller]")]
+    [Route("/api/sensor")]
     public class SensorController : Controller
     {
         private readonly ISensorService _sensorService;

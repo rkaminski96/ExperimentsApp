@@ -7,7 +7,7 @@ namespace ExperimentsApp.Service.Interfaces
     public interface ISensorService
     {
         Task<IList<Sensor>> GetSensorsAsync();
-        Task<Sensor> GetSensorByIdAsync(int id);
+        Task<Sensor> GetSensorByIdAsync(int sensorId);
         Task AddSensorAsync(Sensor sensor);
         Task DeleteSensorAsync(Sensor sensor);
         Task<bool> SaveChangesAsync();

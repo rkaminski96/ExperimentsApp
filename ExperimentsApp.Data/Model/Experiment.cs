@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExperimentsApp.Data.Model
@@ -18,6 +19,12 @@ namespace ExperimentsApp.Data.Model
         [ForeignKey("Machine")]
         public int MachineId { get; set; }
         public Machine Machine { get; set; }
+
+        [ForeignKey("UserId")]
+        public int UserId { get; set; }
+        public User User { get; set; }
+
+        public IList<ExperimentSensor> ExperimentSensors { get; set; }
     }
 }
  

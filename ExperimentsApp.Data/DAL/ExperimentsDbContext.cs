@@ -18,11 +18,11 @@ namespace ExperimentsApp.Data.DAL
         public DbSet<ExperimentType> ExperimentTypes { get; set; }
         public DbSet<Machine> Machines { get; set; }
         public DbSet<Sensor> Sensors { get; set; }
-        public DbSet<MachineSensor> MachineSensors { get; set; }
+        public DbSet<ExperimentSensor> ExperimentSensors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {  
-            builder.Entity<MachineSensor>().HasKey(ms => new { ms.MachineId, ms.SensorId });
+            builder.Entity<ExperimentSensor>().HasKey(es => new { es.ExperimentId, es.SensorId });
             builder.Entity<Sensor>()
                 .Property(b => b.SensorProperties)
                 .HasConversion(
