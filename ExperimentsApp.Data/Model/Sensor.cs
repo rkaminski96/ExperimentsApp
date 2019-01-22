@@ -10,6 +10,6 @@ namespace ExperimentsApp.Data.Model
         public string Position { get; set; }
         public Dictionary<string, string> SensorProperties { get; set; } = new Dictionary<string, string>();
 
-        public IList<MachineSensor> MachineSensors { get; set; }
+        public IList<ExperimentSensor> ExperimentSensors { get; set; }
     }
 }

@@ -50,6 +50,19 @@ namespace ExperimentsApp.API.Migrations
                     b.ToTable("Experiments");
                 });
 
+            modelBuilder.Entity("ExperimentsApp.Data.Model.ExperimentSensor", b =>
+                {
+                    b.Property<int>("ExperimentId");
+
+                    b.Property<int>("SensorId");
+
+                    b.HasKey("ExperimentId", "SensorId");
+
+                    b.HasIndex("SensorId");
+
+                    b.ToTable("ExperimentSensors");
+                });
+
             modelBuilder.Entity("ExperimentsApp.Data.Model.ExperimentType", b =>
                 {
                     b.Property<int>("Id")
@@ -78,19 +91,6 @@ namespace ExperimentsApp.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Machines");
-                });
-
-            modelBuilder.Entity("ExperimentsApp.Data.Model.MachineSensor", b =>
-                {
-                    b.Property<int>("MachineId");
-
-                    b.Property<int>("SensorId");
-
-                    b.HasKey("MachineId", "SensorId");
-
-                    b.HasIndex("SensorId");
-
-                    b.ToTable("MachineSensors");
                 });
 
             modelBuilder.Entity("ExperimentsApp.Data.Model.Sensor", b =>
@@ -150,15 +150,15 @@ namespace ExperimentsApp.API.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("ExperimentsApp.Data.Model.MachineSensor", b =>
+            modelBuilder.Entity("ExperimentsApp.Data.Model.ExperimentSensor", b =>
                 {
-                    b.HasOne("ExperimentsApp.Data.Model.Machine", "Machine")
-                        .WithMany("MachineSensors")
-                        .HasForeignKey("MachineId")
+                    b.HasOne("ExperimentsApp.Data.Model.Experiment", "Experiment")
+                        .WithMany("ExperimentSensors")
+                        .HasForeignKey("ExperimentId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ExperimentsApp.Data.Model.Sensor", "Sensor")
-                        .WithMany("MachineSensors")
+                        .WithMany("ExperimentSensors")
                         .HasForeignKey("SensorId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

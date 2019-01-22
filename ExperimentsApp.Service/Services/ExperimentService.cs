@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ExperimentsApp.Data.DAL;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace ExperimentsApp.Service.Services
 {
@@ -15,36 +17,34 @@ namespace ExperimentsApp.Service.Services
             _experimentsDbContext = experimentsDbContext;
         }
 
-        public List<Experiment> GetAll()
+        public async Task<IList<Experiment>> GetExperimentsAsync(int userId)
         {
-            return _experimentsDbContext.Experiments.ToList();
+            var experiments = await _experimentsDbContext.Experiments
+                                    .Where(x => x.UserId == userId)
+                                    .ToListAsync();
+            return experiments; 
         }
 
-        public Experiment GetById(int id)
+        public async Task<Experiment> GetExperimentByIdAsync(int userId, int experimentId)
         {
-            Experiment foundExperiment = _experimentsDbContext.Experiments
-                .Where(experiment => experiment.Id == id)
-                .SingleOrDefault();
-
-            return foundExperiment;
+            var experiment = await _experimentsDbContext.Experiments
+                                    .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == experimentId);
+            return experiment;
         }
 
-        public void AddNewExperiment(Experiment experiment)
+        public async Task AddExperimentAsync(int userId, Experiment experiment)
         {
-            _experimentsDbContext.Experiments.Add(experiment);
-            _experimentsDbContext.SaveChanges();
+            await _experimentsDbContext.AddAsync(experiment);
         }
 
-        public void RemoveExperiment(int id)
+        /* public async Task DeleteExperimentAsync(int userId, Experiment experiment)
         {
-            Experiment experiment = GetById(id);
-            if (experiment == null)
-            {
-                return;
-            }
+            throw new System.NotImplementedException();
+        } */
 
-            _experimentsDbContext.Experiments.Remove(experiment);
-            _experimentsDbContext.SaveChanges();
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await _experimentsDbContext.SaveChangesAsync() >= 0;
         }
     }
 }

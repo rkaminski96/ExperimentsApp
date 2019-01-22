@@ -7,7 +7,7 @@ namespace ExperimentsApp.Service.Interfaces
     public interface IExperimentTypeService
     {
         Task<IList<ExperimentType>> GetExperimentTypesAsync();
-        Task<ExperimentType> GetExperimentTypeByIdAsync(int id);
+        Task<ExperimentType> GetExperimentTypeByIdAsync(int experimentTypeId);
         Task AddExperimentTypeAsync(ExperimentType experimentType);
         Task DeleteExperimentTypeAsync(ExperimentType experimentType);
         Task<bool> SaveChangesAsync();

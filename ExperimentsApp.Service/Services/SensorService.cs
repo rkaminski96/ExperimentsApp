@@ -22,9 +22,9 @@ namespace ExperimentsApp.Service.Services
             return await _experimentsDbContext.Sensors.ToListAsync();
         }
 
-        public async Task<Sensor> GetSensorByIdAsync(int id)
+        public async Task<Sensor> GetSensorByIdAsync(int sensorId)
         {
-            return await _experimentsDbContext.Sensors.FirstOrDefaultAsync(s => s.Id == id);
+            return await _experimentsDbContext.Sensors.FirstOrDefaultAsync(s => s.Id == sensorId);
         }
 
         public async Task AddSensorAsync(Sensor sensor)
