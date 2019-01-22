@@ -22,9 +22,9 @@ namespace ExperimentsApp.Service.Services
             return await _experimentsDbContext.ExperimentTypes.ToListAsync();
         }
 
-        public async Task<ExperimentType> GetExperimentTypeByIdAsync(int id)
+        public async Task<ExperimentType> GetExperimentTypeByIdAsync(int experimentTypeId)
         {
-            var experimentType = await _experimentsDbContext.ExperimentTypes.FirstOrDefaultAsync(s => s.Id == id);
+            var experimentType = await _experimentsDbContext.ExperimentTypes.FirstOrDefaultAsync(s => s.Id == experimentTypeId);
             return experimentType;
         }
 

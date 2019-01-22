@@ -20,6 +20,10 @@ namespace ExperimentsApp.Data.Model
         public int MachineId { get; set; }
         public Machine Machine { get; set; }
 
+        [ForeignKey("UserId")]
+        public int UserId { get; set; }
+        public User User { get; set; }
+
         public IList<ExperimentSensor> ExperimentSensors { get; set; }
     }
 }

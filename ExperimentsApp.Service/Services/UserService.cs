@@ -37,9 +37,9 @@ namespace ExperimentsApp.Service.Services
             return await _experimentsDbContext.Users.ToListAsync();
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(int userId)
         {
-            return await _experimentsDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return await _experimentsDbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
 
         public async Task<User> FindUserByUsernameAsync(string username)

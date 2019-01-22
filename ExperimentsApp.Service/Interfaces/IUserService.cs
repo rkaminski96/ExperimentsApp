@@ -8,7 +8,7 @@ namespace ExperimentsApp.Service.Interfaces
     {
         bool AuthenticateUser(User user, string password);
         Task<IList<User>> GetUsersAsync();
-        Task<User> GetUserByIdAsync(int id);
+        Task<User> GetUserByIdAsync(int userId);
         Task<User> FindUserByUsernameAsync(string username);
         Task CreateUserAsync(User user, string password);
         Task DeleteUserAsync(User user);
