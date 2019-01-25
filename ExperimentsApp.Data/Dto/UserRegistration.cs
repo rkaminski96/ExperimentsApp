@@ -22,9 +22,9 @@ namespace ExperimentsApp.Data.Dto
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "Your password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+        //[DataType(DataType.Password)]
+        //[Display(Name = "Confirm Password")]
+        //[Compare("Password", ErrorMessage = "Your password and confirmation password do not match.")]
+        //public string ConfirmPassword { get; set; }
     }
 }

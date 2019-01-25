@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using ExperimentsApp.API.Exceptions;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
@@ -42,7 +43,7 @@ namespace ExperimentsApp.API.Controllers
 
             var user = await _userService.GetUserByIdAsync(userId);
             if (user == null)
-                return BadRequest("User not found");
+                return BadRequest(new ErrorCode(message: "User not found"));
 
             var experiments = await _experimentService.GetExperimentsAsync(userId);
             var experimentsResponse = _mapper.Map<IList<ExperimentResponse>>(experiments);
@@ -59,14 +60,36 @@ namespace ExperimentsApp.API.Controllers
 
             var user = await _userService.GetUserByIdAsync(userId);
             if (user == null)
-                return BadRequest("User not found");
+                return BadRequest(new ErrorCode(message: "User not found"));
 
             var experiment = await _experimentService.GetExperimentByIdAsync(userId, experimentId);
             if (experiment == null)
-                return BadRequest("Experiment not found");
+                return BadRequest(new ErrorCode(message: "Experiment not found"));
 
             var experimentResponse = _mapper.Map<ExperimentResponse>(experiment);
             return Ok(experimentResponse);
+        }
+
+        //in progres
+        [HttpPost]
+        public async Task<IActionResult> AddExperiment(int userId, 
+            [FromBody] ExperimentRequest experimentRequest,
+            [FromBody] Machine machine,
+            [FromBody] List<Sensor> sensors)
+        {
+            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.Name));
+            if (currentUserId != userId)
+                return Unauthorized();
+
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user == null)
+                return BadRequest(new ErrorCode(message: "User not found"));
+
+            var experiment = _mapper.Map<Experiment>(experimentRequest);
+            experiment.CreationDateTime = DateTime.Now;
+            experiment.Machine = machine;
+
+            return Ok();
         }
     }
 }
