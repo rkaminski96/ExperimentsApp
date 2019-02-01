@@ -6,7 +6,7 @@ using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
-using ExperimentsApp.API.Exceptions;
+using ExperimentsApp.API.Message;
 
 namespace ExperimentsApp.API.Controllers
 {
@@ -38,7 +38,7 @@ namespace ExperimentsApp.API.Controllers
         {
             var sensor = await _sensorService.GetSensorByIdAsync(sensorId);
             if (sensor == null)
-                return BadRequest(new ErrorCode(message: "Sensor not found"));
+                return BadRequest(new ResponseMessage(message: "Sensor not found"));
 
             var sensorResponse = _mapper.Map<SensorResponse>(sensor);
             return Ok(sensorResponse);
@@ -62,7 +62,7 @@ namespace ExperimentsApp.API.Controllers
         { 
             var sensor  = await _sensorService.GetSensorByIdAsync(sensorId);
             if (sensor == null)
-                return BadRequest(new ErrorCode(message: "Sensor not found"));
+                return BadRequest(new ResponseMessage(message: "Sensor not found"));
 
             await _sensorService.DeleteSensorAsync(sensor);
 

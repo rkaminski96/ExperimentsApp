@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
-using ExperimentsApp.API.Exceptions;
+using ExperimentsApp.API.Message;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
@@ -31,10 +31,10 @@ namespace ExperimentsApp.API.Controllers
         {
             var user = await _userService.FindUserByUsernameAsync(userLogin.Username);
             if (user == null)
-                return BadRequest(new ErrorCode(message: "User not found"));
+                return BadRequest(new ResponseMessage(message: "User not found"));
             
             if(!_userService.AuthenticateUser(user, userLogin.Password))
-                return BadRequest(new ErrorCode(message: "Invalid username or password"));
+                return BadRequest(new ResponseMessage(message: "Invalid username or password"));
 
             var authenticatedUser = _userService.GenerateToken(user);
             return Ok(authenticatedUser);
@@ -46,7 +46,7 @@ namespace ExperimentsApp.API.Controllers
         public async Task<IActionResult> Register([FromBody]UserRegistration userRegistration)
         {
             if (await _userService.FindUserByUsernameAsync(userRegistration.Username) != null)
-                return BadRequest(new ErrorCode(message:"Invalid username or password"));
+                return BadRequest(new ResponseMessage(message: "This username is already in use"));
 
             var user = _mapper.Map<User>(userRegistration);
 
@@ -71,7 +71,7 @@ namespace ExperimentsApp.API.Controllers
         {
             var user = await _userService.GetUserByIdAsync(userId);
             if (user == null)
-                return BadRequest(new ErrorCode(message: "User not found"));
+                return BadRequest(new ResponseMessage(message: "User not found"));
 
             var userDto = _mapper.Map<UserDisplay>(user);
             return Ok(userDto);
@@ -87,7 +87,7 @@ namespace ExperimentsApp.API.Controllers
 
             var user = await _userService.GetUserByIdAsync(userId);
             if (user == null)
-                return BadRequest(new ErrorCode(message: "User not found"));
+                return BadRequest(new ResponseMessage(message: "User not found"));
 
             await _userService.DeleteUserAsync(user);
 

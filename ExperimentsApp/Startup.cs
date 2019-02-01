@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using Swashbuckle.AspNetCore.Swagger;
 using Hangfire;
 using ExperimentsApp.API.Filters;
-using Microsoft.AspNetCore.Mvc.Formatters.Json;
 
 namespace ExperimentsApp
 {

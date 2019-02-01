@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using ExperimentsApp.API.Exceptions;
+using ExperimentsApp.API.Message;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
@@ -37,7 +37,7 @@ namespace ExperimentsApp.API.Controllers
         {
             var experimentType = await _experimentTypeService.GetExperimentTypeByIdAsync(experimentTypeId);
             if (experimentType == null)
-                return BadRequest(new ErrorCode(message: "Experiment Type not found"));
+                return BadRequest(new ResponseMessage(message: "Experiment Type not found"));
 
             var experimentTypeResponse = _mapper.Map<ExperimentTypeResponse>(experimentType);
             return Ok(experimentTypeResponse);
