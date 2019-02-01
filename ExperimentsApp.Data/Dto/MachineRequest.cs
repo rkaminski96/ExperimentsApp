@@ -11,5 +11,9 @@ namespace ExperimentsApp.Data.Dto
         [Required]
         [MinLength(5)]
         public string Type { get; set; }
+
+        [Required]
+        [MinLength(10)]
+        public string Description { get; set; }
     }
 }
