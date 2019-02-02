@@ -8,7 +8,7 @@ namespace ExperimentsApp.Service.Interfaces
     {
         Task<IList<Machine>> GetMachinesAsync();
         Task<Machine> FindMachineByNameAsync(string name);
-        Task<Machine> GetMachineByIdAsync(int sensorId);
+        Task<Machine> GetMachineByIdAsync(int machineId);
         Task AddMachineAsync(Machine machine);
         Task DeleteMachineAsync(Machine machine);
         Task<bool> SaveChangesAsync();

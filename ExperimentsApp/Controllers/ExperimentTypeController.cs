@@ -54,5 +54,20 @@ namespace ExperimentsApp.API.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("{experimentTypeId}")]
+        public async Task<IActionResult> DeleteExperimentType(int experimentTypeId)
+        {
+            var experimentType = await _experimentTypeService.GetExperimentTypeByIdAsync(experimentTypeId);
+            if (experimentType == null)
+                return BadRequest(new ResponseMessage(message: "Machine not found"));
+
+            await _experimentTypeService.DeleteExperimentTypeAsync(experimentType);
+
+            if (!await _experimentTypeService.SaveChangesAsync())
+                return StatusCode(500);
+
+            return NoContent();
+        }
     }
 }

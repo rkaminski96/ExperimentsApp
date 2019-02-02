@@ -68,7 +68,7 @@ namespace ExperimentsApp.Service.Services
             var token = new JwtSecurityToken(_configuration["Tokens:Issuer"],
                 _configuration["Tokens:Issuer"],
                 claims,
-                expires: DateTime.Now.AddMinutes(5),
+                expires: DateTime.Now.AddMinutes(45),
                 signingCredentials: creds);
 
             var authenticatedUser = new
