@@ -33,8 +33,13 @@ namespace ExperimentsApp.Service.Services
 
         public List<string> GetSubdirs()
         {
+            Subdirs subdirs = new Subdirs();
             string directory = @"C:\dev\data\orderedData";
-            return Directory.GetDirectories(directory).ToList();
+            subdirs.subdirsList = Directory.GetDirectories(directory).ToList();
+
+            return subdirs.subdirsList;
+            // string directory = @"C:\dev\data\orderedData";
+            // return Directory.GetDirectories(directory).ToList();
         }  
     }
 }

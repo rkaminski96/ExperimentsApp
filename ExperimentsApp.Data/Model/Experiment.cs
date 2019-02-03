@@ -5,7 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ExperimentsApp.Data.Model
 {
     public class Experiment
-    {
+    { 
+
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDateTime { get; set; }
@@ -24,7 +25,25 @@ namespace ExperimentsApp.Data.Model
         public int UserId { get; set; }
         public User User { get; set; }
 
-        public IList<ExperimentSensor> ExperimentSensors { get; set; }
+        public List<ExperimentSensor> ExperimentSensors { get; set; } = new List<ExperimentSensor>();
+ 
+        protected Experiment()
+        {
+
+        }
+
+        public Experiment(string name, string description, Machine machine, ExperimentType experimentType, User user)
+        {
+            Name = name;
+            Description = description;
+            Machine = machine;
+            MachineId = machine.Id;
+            ExperimentType = experimentType;
+            ExperimentTypeId = experimentType.Id;
+            User = user;
+            UserId = user.Id;
+            CreationDateTime = DateTime.Now;
+        }
     }
 }
  

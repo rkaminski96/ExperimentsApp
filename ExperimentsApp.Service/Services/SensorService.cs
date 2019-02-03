@@ -42,5 +42,11 @@ namespace ExperimentsApp.Service.Services
         {
             return await _experimentsDbContext.SaveChangesAsync() >= 0;
         }
+
+        public async Task<IList<Sensor>> GetSensorsByIds(IList<int> sensorIds)
+        {
+            var sensors = await _experimentsDbContext.Sensors.Where(s => sensorIds.Contains(s.Id)).ToListAsync();
+            return  sensors;
+        }
     }
 }

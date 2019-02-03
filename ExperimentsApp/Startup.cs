@@ -92,6 +92,7 @@ namespace ExperimentsApp
             services.AddScoped<ISensorService, SensorService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IExperimentSensor, ExperimentSensorService>();
 
 
             services.AddSwaggerGen(c =>
