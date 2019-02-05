@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ExperimentsApp.Service.Interfaces
 {
-    public interface IExperimentSensor
+    public interface IExperimentSensorService
     {
+        //Task<ExperimentSensor> GetExperimentByIdAsync(int userId, int experimentId);
         Task AddExperimentSensorAsync(List<ExperimentSensor> experimentSensors);
     }
 }

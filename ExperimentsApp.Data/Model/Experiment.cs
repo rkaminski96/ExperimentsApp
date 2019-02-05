@@ -32,10 +32,11 @@ namespace ExperimentsApp.Data.Model
 
         }
 
-        public Experiment(string name, string description, Machine machine, ExperimentType experimentType, User user)
+        public Experiment(string name, string description, string path, Machine machine, ExperimentType experimentType, User user)
         {
             Name = name;
             Description = description;
+            Path = path;
             Machine = machine;
             MachineId = machine.Id;
             ExperimentType = experimentType;

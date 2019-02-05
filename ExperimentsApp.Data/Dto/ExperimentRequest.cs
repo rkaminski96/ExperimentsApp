@@ -11,8 +11,10 @@ namespace ExperimentsApp.Data.Dto
         public string Name { get; set; }
 
         [Required]
-        [MinLength(5)]
+        [MinLength(10)]
         public string Description { get; set; }
+
+        public string Path { get; set; }
 
         public int ExperimentTypeId { get; set; }
         public int MachineId { get; set; }

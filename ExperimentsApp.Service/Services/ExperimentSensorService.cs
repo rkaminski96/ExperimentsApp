@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ExperimentsApp.Service.Services
 {
-    public class ExperimentSensorService : IExperimentSensor
+    public class ExperimentSensorService : IExperimentSensorService
     {
         private readonly ExperimentsDbContext _experimentsDbContext;
 
@@ -21,5 +21,12 @@ namespace ExperimentsApp.Service.Services
         {
             await _experimentsDbContext.ExperimentSensors.AddRangeAsync(experimentSensors);
         }
+
+        //public async Task<ExperimentSensor> GetExperimentByIdAsync(int userId, int experimentId)
+        //{
+         //   var experiment = await _experimentsDbContext.ExperimentSensors
+          //                          .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == experimentId);
+          //  return experiment;  
+        //}
     }
 }
