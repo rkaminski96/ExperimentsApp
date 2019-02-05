@@ -24,7 +24,7 @@ namespace ExperimentsApp.Service.Services
 
             foreach (string dir in subdirs)
             {
-                var dirUniqueName = string.Format(@"{0}", DateTime.Now.Ticks);
+                var dirUniqueName = string.Format("{0:dd-MM-yyyy_HH_mm}", DateTime.Now);
 
                 DirectoryInfo _dir = new DirectoryInfo(dir);
                 _dir.MoveTo(targetDirectory + "\\" + _dir.Name + "_" + dirUniqueName);
@@ -33,8 +33,11 @@ namespace ExperimentsApp.Service.Services
 
         public List<string> GetSubdirs()
         {
+            Subdirs subdirs = new Subdirs();
             string directory = @"C:\dev\data\orderedData";
-            return Directory.GetDirectories(directory).ToList();
+            subdirs.subdirsList = Directory.GetDirectories(directory).ToList();
+
+            return subdirs.subdirsList;
         }  
     }
 }

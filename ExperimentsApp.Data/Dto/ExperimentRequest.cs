@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ExperimentsApp.Data.Dto
 {
@@ -10,7 +11,13 @@ namespace ExperimentsApp.Data.Dto
         public string Name { get; set; }
 
         [Required]
-        [MinLength(5)]
+        [MinLength(10)]
         public string Description { get; set; }
+
+        public string Path { get; set; }
+
+        public int ExperimentTypeId { get; set; }
+        public int MachineId { get; set; }
+        public List<int> SensorList { get; set; }
     }
 }

@@ -35,6 +35,7 @@ namespace ExperimentsApp
                     options.Filters.Add(typeof(ValidateModelAttribute));
                 })
                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+               
 
             services.AddCors();
 
@@ -91,6 +92,7 @@ namespace ExperimentsApp
             services.AddScoped<ISensorService, SensorService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IExperimentSensorService, ExperimentSensorService>();
 
 
             services.AddSwaggerGen(c =>

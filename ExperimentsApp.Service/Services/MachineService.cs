@@ -43,5 +43,11 @@ namespace ExperimentsApp.Service.Services
         {
             return await _experimentsDbContext.SaveChangesAsync() >= 0;
         }
+
+        public async Task<Machine> FindMachineByNameAsync(string name)
+        {
+            var machine = await _experimentsDbContext.Machines.FirstOrDefaultAsync(m => m.Name == name);
+            return machine;
+        }
     }
 }

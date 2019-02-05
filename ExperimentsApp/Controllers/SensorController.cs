@@ -6,6 +6,7 @@ using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using ExperimentsApp.API.Message;
 
 namespace ExperimentsApp.API.Controllers
 {
@@ -37,7 +38,7 @@ namespace ExperimentsApp.API.Controllers
         {
             var sensor = await _sensorService.GetSensorByIdAsync(sensorId);
             if (sensor == null)
-                return BadRequest("Sensor not found");
+                return BadRequest(new ResponseMessage(message: "Sensor not found"));
 
             var sensorResponse = _mapper.Map<SensorResponse>(sensor);
             return Ok(sensorResponse);
@@ -50,7 +51,7 @@ namespace ExperimentsApp.API.Controllers
 
             await _sensorService.AddSensorAsync(sensor);
             if (!await _sensorService.SaveChangesAsync())
-                return StatusCode(500, "A problem with saving sensor in database");
+                return StatusCode(500);
 
             return Ok();
         }
@@ -61,12 +62,12 @@ namespace ExperimentsApp.API.Controllers
         { 
             var sensor  = await _sensorService.GetSensorByIdAsync(sensorId);
             if (sensor == null)
-                return BadRequest("Sensor not found");
+                return BadRequest(new ResponseMessage(message: "Sensor not found"));
 
             await _sensorService.DeleteSensorAsync(sensor);
 
             if (!await _sensorService.SaveChangesAsync())
-                return StatusCode(500, "A problem with saving changes");
+                return StatusCode(500);
 
             return NoContent();
         }

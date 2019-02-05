@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using ExperimentsApp.API.Message;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
@@ -36,7 +37,7 @@ namespace ExperimentsApp.API.Controllers
         {
             var experimentType = await _experimentTypeService.GetExperimentTypeByIdAsync(experimentTypeId);
             if (experimentType == null)
-                return BadRequest("Experiment type not found");
+                return BadRequest(new ResponseMessage(message: "Experiment Type not found"));
 
             var experimentTypeResponse = _mapper.Map<ExperimentTypeResponse>(experimentType);
             return Ok(experimentTypeResponse);
@@ -49,9 +50,24 @@ namespace ExperimentsApp.API.Controllers
 
             await _experimentTypeService.AddExperimentTypeAsync(experimentType);
             if (!await _experimentTypeService.SaveChangesAsync())
-                return StatusCode(500, "A problem with saving sensor in database");
+                return StatusCode(500);
 
             return Ok();
+        }
+
+        [HttpDelete("{experimentTypeId}")]
+        public async Task<IActionResult> DeleteExperimentType(int experimentTypeId)
+        {
+            var experimentType = await _experimentTypeService.GetExperimentTypeByIdAsync(experimentTypeId);
+            if (experimentType == null)
+                return BadRequest(new ResponseMessage(message: "Machine not found"));
+
+            await _experimentTypeService.DeleteExperimentTypeAsync(experimentType);
+
+            if (!await _experimentTypeService.SaveChangesAsync())
+                return StatusCode(500);
+
+            return NoContent();
         }
     }
 }

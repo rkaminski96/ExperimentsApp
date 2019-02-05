@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using ExperimentsApp.API.Message;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -36,7 +37,7 @@ namespace ExperimentsApp.API.Controllers
         {
             var machine = await _machineService.GetMachineByIdAsync(machineId);
             if (machine == null)
-                return BadRequest("Machine not found");
+                return BadRequest(new ResponseMessage(message: "Machine not found"));
 
             var machineResponse = _mapper.Map<MachineResponse>(machine);
             return Ok(machineResponse);
@@ -45,11 +46,14 @@ namespace ExperimentsApp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMachine([FromBody]MachineRequest machineRequest)
         {
+            if (await _machineService.FindMachineByNameAsync(machineRequest.Name) != null)
+                return BadRequest(new ResponseMessage(message: "Machine with this name already exist"));
+
             var machine = _mapper.Map<Machine>(machineRequest);
 
             await _machineService.AddMachineAsync(machine);
             if (!await _machineService.SaveChangesAsync())
-                return StatusCode(500, "A problem with saving sensor in database");
+                return StatusCode(500);
 
             return Ok();
         }
@@ -60,12 +64,12 @@ namespace ExperimentsApp.API.Controllers
         {
             var machine = await _machineService.GetMachineByIdAsync(machineId);
             if (machine == null)
-                return BadRequest("Machine not found");
+                return BadRequest(new ResponseMessage(message: "Machine not found"));
 
             await _machineService.DeleteMachineAsync(machine);
 
             if (!await _machineService.SaveChangesAsync())
-                return StatusCode(500, "A problem with saving changes");
+                return StatusCode(500);
 
             return NoContent();
         }

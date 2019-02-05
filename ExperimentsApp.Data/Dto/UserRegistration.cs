@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+
 namespace ExperimentsApp.Data.Dto
 {
     public class UserRegistration
@@ -15,16 +16,14 @@ namespace ExperimentsApp.Data.Dto
         public string LastName { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [MinLength(5, ErrorMessage = "Username cannot be less than 5 characters")]
+        [MaxLength(15, ErrorMessage = "Username cannot be more than 15 characters")]
         public string Username { get; set; }
 
         [Required]
+        [MinLength(8, ErrorMessage = "Username cannot be less than 8 characters")]
+        [MaxLength(15, ErrorMessage = "Username cannot be more than 15 characters")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("Password", ErrorMessage = "Your password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
     }
 }

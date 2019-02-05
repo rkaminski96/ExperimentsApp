@@ -11,5 +11,6 @@ namespace ExperimentsApp.Service.Interfaces
         Task AddSensorAsync(Sensor sensor);
         Task DeleteSensorAsync(Sensor sensor);
         Task<bool> SaveChangesAsync();
+        Task<IList<Sensor>> GetSensorsByIds(IList<int> sensorIds);
     }
 }

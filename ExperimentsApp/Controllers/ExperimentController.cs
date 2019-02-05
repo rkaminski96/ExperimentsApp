@@ -4,8 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using ExperimentsApp.API.Message;
 using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
+using ExperimentsApp.Service;
+using ExperimentsApp.Service.Extensions;
 using ExperimentsApp.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,59 +17,98 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExperimentsApp.API.Controllers
 {
     [Authorize]
-    [Route("api/user/{userId}/experiment")]
+    [Route("api/experiment")]
     public class ExperimentController : Controller
     {
         private readonly IUserService _userService;
         private readonly IExperimentService _experimentService;
         private readonly IMapper _mapper;
         private readonly IFileService _fileService;
+        private readonly IExperimentTypeService _experimentTypeService;
+        private readonly IMachineService _machineService;
+        private readonly ISensorService _sensorService;
+        private readonly IExperimentSensorService _experimentSensorService;
 
-        public ExperimentController(IUserService userService, 
-            IExperimentService experimentService, 
+        public ExperimentController(IUserService userService,
+            IExperimentService experimentService,
             IMapper mapper,
-            IFileService fileService)
+            IFileService fileService,
+            IExperimentTypeService experimentTypeService,
+            IMachineService machineService,
+            ISensorService sensorService,
+            IExperimentSensorService experimentSensorService
+            )
+
         {
             _userService = userService;
             _experimentService = experimentService;
             _mapper = mapper;
             _fileService = fileService;
+            _experimentTypeService = experimentTypeService;
+            _machineService = machineService;
+            _sensorService = sensorService;
+            _experimentSensorService = experimentSensorService;
         }
-
+    
         [HttpGet]
-        public async Task<IActionResult> GetExperiments(int userId)
+        public async Task<IActionResult> GetExperiments()
         {
-            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.Name));
-            if (currentUserId != userId)
-                return Unauthorized();
+            var user = await _userService.GetUserByIdAsync(User.GetUserId());
 
-            var user = await _userService.GetUserByIdAsync(userId);
-            if (user == null)
-                return BadRequest("User not found");
-
-            var experiments = await _experimentService.GetExperimentsAsync(userId);
+            var experiments = await _experimentService.GetExperimentsAsync(user.Id);
             var experimentsResponse = _mapper.Map<IList<ExperimentResponse>>(experiments);
-
+        
             return Ok(experimentsResponse);
         }
 
+
         [HttpGet("{experimentId}")]
-        public async Task<IActionResult> GetExperiment(int userId, int experimentId)
+        public async Task<IActionResult> GetSensors(int experimentId)
         {
-            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.Name));
-            if (currentUserId != userId)
-                return Unauthorized();
+            var sensors = await _experimentSensorService.GetSensorsForExperimentAsync(experimentId);
 
-            var user = await _userService.GetUserByIdAsync(userId);
-            if (user == null)
-                return BadRequest("User not found");
+            var sensorResponse = _mapper.Map<IList<SensorResponse>>(sensors);
 
-            var experiment = await _experimentService.GetExperimentByIdAsync(userId, experimentId);
-            if (experiment == null)
-                return BadRequest("Experiment not found");
+            return Ok(sensorResponse);
+        }
 
-            var experimentResponse = _mapper.Map<ExperimentResponse>(experiment);
-            return Ok(experimentResponse);
+
+        [HttpGet("/subdirectories")] 
+        public IActionResult GetSubdirs()
+        {
+            return Ok(_fileService.GetSubdirs());
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddExperiment([FromBody] ExperimentRequest experimentRequest)
+        {
+            var experimentType = await _experimentTypeService.GetExperimentTypeByIdAsync(experimentRequest.ExperimentTypeId);
+            var machine = await _machineService.GetMachineByIdAsync(experimentRequest.MachineId);
+            var sensors = await _sensorService.GetSensorsByIds(experimentRequest.SensorList);
+            var user = await _userService.GetUserByIdAsync(User.GetUserId());
+            var experimentsensors = new List<ExperimentSensor>();
+
+            var experiment = new Experiment(experimentRequest.Name, experimentRequest.Description, experimentRequest.Path, machine, experimentType, user);
+
+            foreach(var sensor in sensors)
+            {
+                var experimentSensor = new ExperimentSensor(sensor, experiment);
+                experimentsensors.Add(experimentSensor);
+            }
+
+            await _experimentSensorService.AddExperimentSensorAsync(experimentsensors);
+
+            if (!await _experimentService.SaveChangesAsync())
+                return StatusCode(500);
+
+            return Ok();
         }
     }
 }
+
+
+
+
+          

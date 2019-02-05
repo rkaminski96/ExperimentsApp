@@ -32,10 +32,14 @@ namespace ExperimentsApp.Service.Services
             return experiment;
         }
 
-        public async Task AddExperimentAsync(int userId, Experiment experiment)
+        public async Task AddExperimentAsync(Experiment experiment)
         {
             await _experimentsDbContext.AddAsync(experiment);
         }
+
+
+
+
 
         /* public async Task DeleteExperimentAsync(int userId, Experiment experiment)
         {
