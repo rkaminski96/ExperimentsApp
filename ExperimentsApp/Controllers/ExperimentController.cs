@@ -49,7 +49,7 @@ namespace ExperimentsApp.API.Controllers
             _sensorService = sensorService;
             _experimentSensorService = experimentSensorService;
         }
-
+    
         [HttpGet]
         public async Task<IActionResult> GetExperiments()
         {
@@ -61,27 +61,25 @@ namespace ExperimentsApp.API.Controllers
             return Ok(experimentsResponse);
         }
 
+
+        [HttpGet("{experimentId}")]
+        public async Task<IActionResult> GetSensors(int experimentId)
+        {
+            var sensors = await _experimentSensorService.GetSensorsForExperimentAsync(experimentId);
+
+            var sensorResponse = _mapper.Map<IList<SensorResponse>>(sensors);
+
+            return Ok(sensorResponse);
+        }
+
+
         [HttpGet("/subdirectories")] 
         public IActionResult GetSubdirs()
         {
             return Ok(_fileService.GetSubdirs());
         }
 
-        [HttpGet("{experimentId}")]
-        public async Task<IActionResult> GetExperiment(int experimentId)
-        {
-            var user = await _userService.GetUserByIdAsync(User.GetUserId());
-            
-            if (user == null)
-                return BadRequest(new ResponseMessage(message: "User not found"));
 
-            var experiment = await _experimentService.GetExperimentByIdAsync(user.Id, experimentId);
-            if (experiment == null)
-                return BadRequest(new ResponseMessage(message: "Experiment not found"));
-
-            var experimentResponse = _mapper.Map<ExperimentResponse>(experiment);
-            return Ok(experimentResponse);
-        }
 
         [HttpPost]
         public async Task<IActionResult> AddExperiment([FromBody] ExperimentRequest experimentRequest)

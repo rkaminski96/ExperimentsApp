@@ -8,7 +8,7 @@ namespace ExperimentsApp.Service.Interfaces
 {
     public interface IExperimentSensorService
     {
-        //Task<ExperimentSensor> GetExperimentByIdAsync(int userId, int experimentId);
+        Task<IList<Sensor>> GetSensorsForExperimentAsync(int experimentId);
         Task AddExperimentSensorAsync(List<ExperimentSensor> experimentSensors);
     }
 }

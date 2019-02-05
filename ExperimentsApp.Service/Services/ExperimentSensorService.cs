@@ -1,8 +1,11 @@
 ﻿using ExperimentsApp.Data.DAL;
 using ExperimentsApp.Data.Model;
 using ExperimentsApp.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,21 +15,25 @@ namespace ExperimentsApp.Service.Services
     {
         private readonly ExperimentsDbContext _experimentsDbContext;
 
-        public ExperimentSensorService(ExperimentsDbContext experimentDbContext)
+
+        public ExperimentSensorService(ExperimentsDbContext experimentsDbContext)
         {
-            _experimentsDbContext = experimentDbContext;
+            _experimentsDbContext = experimentsDbContext;
         }
+
 
         public async Task AddExperimentSensorAsync(List<ExperimentSensor> experimentSensors)
         {
             await _experimentsDbContext.ExperimentSensors.AddRangeAsync(experimentSensors);
         }
 
-        //public async Task<ExperimentSensor> GetExperimentByIdAsync(int userId, int experimentId)
-        //{
-         //   var experiment = await _experimentsDbContext.ExperimentSensors
-          //                          .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == experimentId);
-          //  return experiment;  
-        //}
+        public async Task<IList<Sensor>> GetSensorsForExperimentAsync(int experimentId)
+        {
+            var sensors = await _experimentsDbContext.ExperimentSensors
+                                   .Where(s => s.Experiment.Id == experimentId)
+                                   .Select(s => s.Sensor)
+                                   .ToListAsync();
+            return sensors;
+        }
     }
 }
