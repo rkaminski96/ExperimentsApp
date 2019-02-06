@@ -21,6 +21,8 @@ namespace ExperimentsApp.Service.Services
         {
             var experiments = await _experimentsDbContext.Experiments
                                     .Where(x => x.UserId == userId)
+                                    .Include(e => e.Machine)
+                                    .Include(e => e.ExperimentType)
                                     .ToListAsync();
             return experiments; 
         }
@@ -38,13 +40,12 @@ namespace ExperimentsApp.Service.Services
         }
 
 
-
-
-
-        /* public async Task DeleteExperimentAsync(int userId, Experiment experiment)
+        public async Task DeleteExperimentAsync(Experiment experiment)
         {
-            throw new System.NotImplementedException();
-        } */
+            _experimentsDbContext.Experiments.Remove(experiment);
+            await Task.CompletedTask;
+        }
+
 
         public async Task<bool> SaveChangesAsync()
         {

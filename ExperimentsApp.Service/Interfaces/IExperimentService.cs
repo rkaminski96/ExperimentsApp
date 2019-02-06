@@ -9,7 +9,7 @@ namespace ExperimentsApp.Service.Interfaces
         Task<IList<Experiment>> GetExperimentsAsync(int userId);
         Task<Experiment> GetExperimentByIdAsync(int userId, int experimentId);
         Task AddExperimentAsync(Experiment experiment);
-        //Task DeleteExperimentAsync(int userId, Experiment experiment);
+        Task DeleteExperimentAsync(Experiment experiment);
         Task<bool> SaveChangesAsync();
     }
 }

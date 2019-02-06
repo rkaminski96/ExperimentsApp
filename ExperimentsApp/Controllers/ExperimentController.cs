@@ -54,15 +54,15 @@ namespace ExperimentsApp.API.Controllers
         public async Task<IActionResult> GetExperiments()
         {
             var user = await _userService.GetUserByIdAsync(User.GetUserId());
-
             var experiments = await _experimentService.GetExperimentsAsync(user.Id);
             var experimentsResponse = _mapper.Map<IList<ExperimentResponse>>(experiments);
         
+
             return Ok(experimentsResponse);
         }
 
 
-        [HttpGet("{experimentId}")]
+        [HttpGet("sensors/{experimentId}")]
         public async Task<IActionResult> GetSensors(int experimentId)
         {
             var sensors = await _experimentSensorService.GetSensorsForExperimentAsync(experimentId);
@@ -105,6 +105,24 @@ namespace ExperimentsApp.API.Controllers
 
             return Ok();
         }
+
+
+        [HttpDelete("{experimentId}")]
+        public async Task<IActionResult> DeleteExperiment(int experimentId)
+        {
+            var user = await _userService.GetUserByIdAsync(User.GetUserId());
+            var experiment = await _experimentService.GetExperimentByIdAsync(user.Id, experimentId);
+            if (experiment == null)
+                return BadRequest(new ResponseMessage(message: "Experiment not found"));
+
+            await _experimentService.DeleteExperimentAsync(experiment);
+
+            if (!await _experimentService.SaveChangesAsync())
+                return StatusCode(500);
+
+            return NoContent();
+        }
+
     }
 }
 
