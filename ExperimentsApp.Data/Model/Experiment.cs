@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ExperimentsApp.Data.Model
 {
     public class Experiment
-    { 
+    {
 
         public int Id { get; set; }
         public string Name { get; set; }

@@ -1,6 +1,7 @@
 ﻿using ExperimentsApp.Data.Dto;
 using ExperimentsApp.Data.Model;
 using AutoMapper;
+using System.Globalization;
 
 namespace ExperimentsApp.API.Mapping
 {
@@ -9,7 +10,8 @@ namespace ExperimentsApp.API.Mapping
         public MappingProfile()
         {
             CreateMap<ExperimentRequest, Experiment>();
-            CreateMap<Experiment, ExperimentResponse>();
+            CreateMap<Experiment, ExperimentResponse>()
+                .ForMember(dest => dest.CreationDateTime, opt => opt.MapFrom(src => src.CreationDateTime.ToString()));
 
             CreateMap<ExperimentTypeRequest, ExperimentType>();
             CreateMap<ExperimentType, ExperimentTypeResponse>();
