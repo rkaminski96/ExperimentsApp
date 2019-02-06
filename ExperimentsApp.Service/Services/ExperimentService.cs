@@ -21,6 +21,8 @@ namespace ExperimentsApp.Service.Services
         {
             var experiments = await _experimentsDbContext.Experiments
                                     .Where(x => x.UserId == userId)
+                                    .Include(e => e.Machine)
+                                    .Include(e => e.ExperimentType)
                                     .ToListAsync();
             return experiments; 
         }

@@ -11,7 +11,7 @@ namespace ExperimentsApp.API.Mapping
         {
             CreateMap<ExperimentRequest, Experiment>();
             CreateMap<Experiment, ExperimentResponse>()
-                .ForMember(dest => dest.CreationDateTime, opt => opt.MapFrom(src => src.CreationDateTime.ToString()));
+                .ForMember(dest => dest.CreationDateTime, opt => opt.MapFrom(src => src.CreationDateTime.ToString("G")));
 
             CreateMap<ExperimentTypeRequest, ExperimentType>();
             CreateMap<ExperimentType, ExperimentTypeResponse>();

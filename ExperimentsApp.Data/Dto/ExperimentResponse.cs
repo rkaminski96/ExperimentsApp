@@ -13,7 +13,9 @@ namespace ExperimentsApp.Data.Dto
         public string Description { get; set; }
 
         public int ExperimentTypeId { get; set; }
+        public ExperimentType ExperimentType { get; set; }
 
         public int MachineId { get; set; }
+        public Machine Machine { get; set; }
     }
 }

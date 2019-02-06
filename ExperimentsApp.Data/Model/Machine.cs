@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace ExperimentsApp.Data.Model
 {
@@ -9,6 +10,7 @@ namespace ExperimentsApp.Data.Model
         public string Type { get; set; }
         public string Description { get; set; }
 
+        [JsonIgnore]
         public ICollection<Experiment> Experiments { get; set; }
     }
 }
